@@ -1,0 +1,27 @@
+.flex {
+    display: flex
+}
+
+.flex-sub {
+    flex: 1
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.text-l {
+    font-size: 64px;
+}
+
+.margin-top-sm {
+    margin-top: 32px;
+}
+
+.radius {
+    border-radius: 50%
+}
