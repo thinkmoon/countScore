@@ -214,8 +214,6 @@ export default {
     }
   },
   created: async function() {
-    console.log(atob("emhhbm"));
-    console.log(this.$route);
     this.distributionId = this.$route.query.distributionId;
     if (typeof this.distributionId == "undefined") {
       this.status = "链接错误";
@@ -223,24 +221,36 @@ export default {
     } else {
       this.status = false;
     }
-    let code = prompt("请输入授权码");
-    if (atob(code) == "zhan") {
-      this.status = false;
-    } else {
-      this.status = "授权码错误";
-      return;
-    }
+    // let code = prompt("请输入授权码");
+    // if (atob(code) == "zhan") {
+    //   this.status = false;
+    // } else {
+    //   this.status = "授权码错误";
+    //   return;
+    // }
     let res = await this.$axios.get(
       "/competition/match/info/select/match/distributionid?distributionId=" +
         this.distributionId
     );
     this.list = res.data.data;
-    console.log(this.list);
     res = await this.$axios.get(
       "/competition/match/info/selectByIdAndCompetitionId?competitionId=1&competitionMatchInfoId=" +
         this.list[this.currentIndex].id
     );
     this.competition = res.data.data;
+    if (this.competition.length == 1) {
+      res = await this.$axios.post("/competition/match/info/save/scoreboard", [
+        {
+          competitionMatchInfoId: this.list[this.currentIndex].id,
+          competitionUserType: 1,
+          userId: this.competition[0].id,
+          goalss: this.goals0
+        }
+      ]);
+      this.currentIndex++;
+      this.init();
+      location.reload();
+    }
     console.log(this.competition);
   },
   methods: {
@@ -288,6 +298,9 @@ export default {
                 this.list[this.currentIndex].id
             );
             this.competition = res.data.data;
+            if (this.competition.length == 1) {
+              location.reload();
+            }
             this.init();
             console.log(this.competition);
           } else {

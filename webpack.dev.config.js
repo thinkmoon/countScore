@@ -36,8 +36,8 @@ module.exports = merge(webpackBaseConfig, {
         disableHostCheck: true,
         public: '192.168.0.128:8080',
         proxy: {
-            '/api': {
-                target: 'https://lxw666.top/client/',
+            '/api/': {
+                target: 'https://lxw666.top',
                 // target: 'http://wxlc.wezoz.com',
                 changeOrigin: true,
                 pathRewrite: {
