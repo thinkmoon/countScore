@@ -11,11 +11,9 @@ module.exports = {
         path: path.join(__dirname, './dist')
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.vue$/,
-                use: [
-                    {
+                use: [{
                         loader: 'vue-loader',
                         options: {
                             loaders: {

@@ -6,12 +6,18 @@ import Util from './libs/util';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 
+import axios from 'axios';
+// axios.defaults.baseURL = '/api/';
+axios.defaults.baseURL = 'https://lxw666.top/client/';
+
+
+Vue.prototype.$axios = axios
+
 Vue.use(VueRouter);
 Vue.use(iView);
 
 // 路由配置
 const RouterConfig = {
-    mode: 'history',
     routes: Routers
 };
 const router = new VueRouter(RouterConfig);

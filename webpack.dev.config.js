@@ -5,9 +5,9 @@ const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
 const fs = require('fs');
 
-fs.open('./src/config/env.js', 'w', function (err, fd) {
+fs.open('./src/config/env.js', 'w', function(err, fd) {
     const buf = 'export default "development";';
-    fs.write(fd, buf, 0, buf.length, 0, function (err, written, buffer){});
+    fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
 });
 
 module.exports = merge(webpackBaseConfig, {
@@ -31,5 +31,19 @@ module.exports = merge(webpackBaseConfig, {
             template: './src/template/index.ejs',
             inject: false
         })
-    ]
+    ],
+    devServer: {
+        disableHostCheck: true,
+        public: '192.168.0.128:8080',
+        proxy: {
+            '/api': {
+                target: 'https://lxw666.top/client/',
+                // target: 'http://wxlc.wezoz.com',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
+        }
+    }
 });
