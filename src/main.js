@@ -7,8 +7,8 @@ import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 
 import axios from 'axios';
-// axios.defaults.baseURL = '/api/';
-axios.defaults.baseURL = 'https://lxw666.top/client/';
+axios.defaults.baseURL = '/api/client';
+// axios.defaults.baseURL = 'http://lc.thinkmoon.cn/client/';
 
 
 Vue.prototype.$axios = axios
