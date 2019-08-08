@@ -142,6 +142,10 @@
             type="primary"
             @click="addScore(0,3)"
           >+3</Button>
+          <Button
+            type="default"
+            @click="cancel(0)"
+          >回退</Button>
         </div>
         <div class="flex-sub justify-center flex">
           <Button
@@ -160,6 +164,10 @@
             type="primary"
             @click="addScore(1,3)"
           >+3</Button>
+          <Button
+            type="default"
+            @click="cancel(1)"
+          >回退</Button>
         </div>
       </div>
       <div class="flex justify-center">
@@ -244,7 +252,8 @@ export default {
           competitionMatchInfoId: this.list[this.currentIndex].id,
           competitionUserType: 1,
           userId: this.competition[0].id,
-          goalss: this.goals0
+          goalss: this.goals0,
+          foul: this.foul1
         }
       ]);
       this.currentIndex++;
@@ -254,6 +263,21 @@ export default {
     console.log(this.competition);
   },
   methods: {
+    cancel(index) {
+      if (index == 0) {
+        if (this.goals0.length == 0) {
+          return;
+        }
+        let data = this.goals0.pop();
+        this.score1 -= data;
+      } else {
+        if (this.goals1.length == 0) {
+          return;
+        }
+        let data = this.goals1.pop();
+        this.score2 -= data;
+      }
+    },
     abstain(index) {
       if (index == 0) {
         this.abstain0 = !this.abstain0;
@@ -280,13 +304,15 @@ export default {
                 competitionMatchInfoId: this.list[this.currentIndex].id,
                 competitionUserType: this.abstain0 ? 2 : 1,
                 userId: this.competition[0].id,
-                goalss: this.goals0
+                goalss: this.goals0,
+                foul: this.foul1
               },
               {
                 competitionMatchInfoId: this.list[this.currentIndex].id,
                 competitionUserType: this.abstain1 ? 2 : 1,
                 userId: this.competition[1].id,
-                goalss: this.goals1
+                goalss: this.goals1,
+                foul: this.foul2
               }
             ]
           );
@@ -339,7 +365,7 @@ export default {
   }
 };
 </script>
-<style scoped lang="less">
+<style scoped>
 /*-------------------------
 	General Styles
 --------------------------*/
@@ -370,7 +396,6 @@ export default {
 /*-------------------------
 	Light color theme
 --------------------------*/
-// 数字边框
 .scoreLine .digits {
   padding: 12px;
   display: flex;

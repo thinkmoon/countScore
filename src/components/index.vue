@@ -54,7 +54,7 @@
               :style="{background: '#fff'}"
             >
               <Menu
-                active-name="1-2"
+                active-name="1-f5a056898a6a4d02b958b9c0f8dd6d75"
                 theme="light"
                 width="auto"
                 :open-names="['1']"
@@ -65,15 +65,34 @@
                     <Icon type="ios-navigate"></Icon>
                     东莞1V1篮球..
                   </template>
-                  <MenuItem name="1-1">城区片区</MenuItem>
-                  <Submenu name="1-2">
+                  <Submenu name="1-f5a056898a6a4d02b958b9c0f8dd6d75">
                     <template slot="title">
-                      滨海片区
+                      东南临深片区
                     </template>
-                    <MenuItem name="1-2-1">男子组</MenuItem>
-                    <MenuItem name="1-2-2">女子组</MenuItem>
+                    <MenuItem name="1-f5a056898a6a4d02b958b9c0f8dd6d75-1">男子组</MenuItem>
+                    <MenuItem name="1-f5a056898a6a4d02b958b9c0f8dd6d75-2">女子组</MenuItem>
                   </Submenu>
-                  <MenuItem name="1-3">...</MenuItem>
+                  <Submenu name="1-e5db67cbe93640e7ad06423221bbf71f">
+                    <template slot="title">
+                      东部产业园片区
+                    </template>
+                    <MenuItem name="1-e5db67cbe93640e7ad06423221bbf71f-1">男子组</MenuItem>
+                    <MenuItem name="1-e5db67cbe93640e7ad06423221bbf71f-2">女子组</MenuItem>
+                  </Submenu>
+                  <Submenu name="1-e5761eb3ea9f4d86aeaa4a0d0debdd68">
+                    <template slot="title">
+                      水乡新城片区
+                    </template>
+                    <MenuItem name="1-e5761eb3ea9f4d86aeaa4a0d0debdd68-1">男子组</MenuItem>
+                    <MenuItem name="1-e5761eb3ea9f4d86aeaa4a0d0debdd68-2">女子组</MenuItem>
+                  </Submenu>
+                  <Submenu name="1-bf639b0bcb68488cac06bd463a7bbabb">
+                    <template slot="title">
+                      松山湖片区
+                    </template>
+                    <MenuItem name="1-bf639b0bcb68488cac06bd463a7bbabb-1">男子组</MenuItem>
+                    <MenuItem name="1-bf639b0bcb68488cac06bd463a7bbabb-2">女子组</MenuItem>
+                  </Submenu>
                 </Submenu>
               </Menu>
             </Sider>
@@ -96,6 +115,10 @@
                     type="primary"
                     @click="distribute('b748f4e5b4ff11e9a0b400163e027b24')"
                   >分配给B场次</Button>
+                  <Button
+                    type="success"
+                    @click="download()"
+                  >导出前二十名单</Button>
                 </div>
                 <div style="float: right;">
                   <Page
@@ -114,10 +137,11 @@
   </div>
 </template>
 <script>
-import qs from 'qs';
+import qs from "qs";
 export default {
   data() {
     return {
+      competitionAreaId: null,
       lists: [],
       column: [
         {
@@ -144,8 +168,15 @@ export default {
     };
   },
   methods: {
+    download() {
+      window.open(
+        "api/client/competition/match/info/downloadTop20List?competitionId=1&competitionAreaId=" +
+          this.competitionAreaId,
+        "_blank"
+      ); // 新窗口打开外链接
+    },
     async distribute(id) {
-      this.$axios({
+      await this.$axios({
         method: "post",
         url: "/competition/match/info/save/match/distribution",
         data: qs.stringify({
@@ -156,7 +187,11 @@ export default {
           "Content-Type": "application/x-www-form-urlencoded"
         }
       });
-      this.tableData = []
+      this.$Modal.confirm({
+        title: "提示信息",
+        content: "<p>所选对局已分配给场次" + id + "</p>"
+      });
+      this.tableData = [];
     },
     selectionChange(lists) {
       this.lists = [];
@@ -171,7 +206,9 @@ export default {
       this.page = page;
       this.$axios
         .get(
-          "/competition/match/info/selectByPageList?competitionAreaId=ace5fd0349d540e6b16090f165370127&competitionId=1&type=" +
+          "/competition/match/info/selectByPageList?competitionAreaId=" +
+            this.competitionAreaId +
+            "&competitionId=1&type=" +
             this.type +
             "&page=" +
             this.page
@@ -186,9 +223,12 @@ export default {
         return;
       } else {
         this.type = data[2];
+        this.competitionAreaId = data[1];
         this.$axios
           .get(
-            "/competition/match/info/selectByPageList?competitionAreaId=ace5fd0349d540e6b16090f165370127&competitionId=1&type=" +
+            "/competition/match/info/selectByPageList?competitionAreaId=" +
+              this.competitionAreaId +
+              "&competitionId=1&type=" +
               this.type
           )
           .then(res => {

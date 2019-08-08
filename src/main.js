@@ -1,40 +1,27 @@
-import Vue from 'vue';
-import iView from 'iview';
-import VueRouter from 'vue-router';
-import Routers from './router';
-import Util from './libs/util';
-import App from './app.vue';
-import 'iview/dist/styles/iview.css';
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
 
 import axios from 'axios';
 axios.defaults.baseURL = '/api/client';
-// axios.defaults.baseURL = 'http://lc.thinkmoon.cn/client/';
 
+router.beforeEach((to, from, next) => { //beforeEach是router的钩子函数，在进入路由前执行
+    if (to.meta.title) { //判断是否有标题
+        document.title = to.meta.title
+    }
+    next() //执行进入路由，如果不写就不会进入目标页
+})
 
 Vue.prototype.$axios = axios
 
-Vue.use(VueRouter);
-Vue.use(iView);
+Vue.config.productionTip = false
 
-// 路由配置
-const RouterConfig = {
-    routes: Routers
-};
-const router = new VueRouter(RouterConfig);
-
-router.beforeEach((to, from, next) => {
-    iView.LoadingBar.start();
-    Util.title(to.meta.title);
-    next();
-});
-
-router.afterEach((to, from, next) => {
-    iView.LoadingBar.finish();
-    window.scrollTo(0, 0);
-});
-
+/* eslint-disable no-new */
 new Vue({
     el: '#app',
-    router: router,
-    render: h => h(App)
-});
+    router,
+    components: { App },
+    template: '<App/>'
+})

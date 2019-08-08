@@ -1,24 +1,20 @@
-<style scoped>
-    @import 'styles/common.css';
-</style>
 <template>
-    <div>
-        <router-view></router-view>
-    </div>
+  <div id="app">
+    <router-view/>
+  </div>
 </template>
+
 <script>
-    export default {
-        data () {
-            return {}
-        },
-        mounted () {
-
-        },
-        beforeDestroy () {
-
-        },
-        methods: {
-
-        }
-    }
+export default {
+  name: 'App'
+}
 </script>
+
+<style>
+@import 'styles/common.css';
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+</style>
