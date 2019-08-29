@@ -1,12 +1,11 @@
 <template>
   <div class="layout">
     <Layout>
-      
       <Layout :style="{ padding: '0 50px' }">
         <Breadcrumb :style="{ margin: '16px 0' }">
           <BreadcrumbItem>首页</BreadcrumbItem>
           <BreadcrumbItem>赛事</BreadcrumbItem>
-          <BreadcrumbItem>场次分配</BreadcrumbItem>
+          <BreadcrumbItem>赛事安排</BreadcrumbItem>
         </Breadcrumb>
         <Content :style="{ padding: '24px 0', minHeight: '280px', background: '#fff' }">
           <Layout>

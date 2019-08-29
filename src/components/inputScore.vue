@@ -265,19 +265,19 @@ export default {
     }
   },
   methods: {
-    cancel(index){
+    cancel(index) {
       if (index == 0) {
-        if(this.goals0.length == 0){
-          return
+        if (this.goals0.length == 0) {
+          return;
         }
         let data = this.goals0.pop();
-        this.score1 -= data
+        this.score1 -= data;
       } else {
-       if(this.goals1.length == 0){
-          return
+        if (this.goals1.length == 0) {
+          return;
         }
         let data = this.goals1.pop();
-        this.score2 -= data
+        this.score2 -= data;
       }
     },
     input1(e) {
@@ -331,13 +331,15 @@ export default {
                 competitionUserType: this.abstain0 ? 2 : 1,
                 userId: this.competition[0].id,
                 goalss: this.goals0,
-                foul:this.foul1
+                foul: this.foul1,
+                type: 2
               },
               {
                 competitionUserType: this.abstain1 ? 2 : 1,
                 userId: this.competition[1].id,
                 goalss: this.goals1,
-                foul:this.foul2
+                foul: this.foul2,
+                type: 2
               }
             ]
           );
